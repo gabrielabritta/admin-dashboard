@@ -1,64 +1,75 @@
-<div align="center"><strong>Next.js 15 Admin Dashboard Template</strong></div>
-<div align="center">Built with the Next.js App Router</div>
-<br />
-<div align="center">
-<a href="https://next-admin-dash.vercel.app/">Demo</a>
-<span> · </span>
-<a href="https://vercel.com/templates/next.js/admin-dashboard-tailwind-postgres-react-nextjs">Clone & Deploy</a>
-<span>
-</div>
+## Colocation File System Architecture
 
-## Overview
+The project follows a colocation-first file structure using the App Router. Feature-specific pages live alongside their components to maintain separation of concerns and reduce cross-import complexity.
 
-This is a starter template using the following stack:
-
-- Framework - [Next.js (App Router)](https://nextjs.org)
-- Language - [TypeScript](https://www.typescriptlang.org)
-- Auth - [Auth.js](https://authjs.dev)
-- Database - [Postgres](https://vercel.com/postgres)
-- Deployment - [Vercel](https://vercel.com/docs/concepts/next.js/overview)
-- Styling - [Tailwind CSS](https://tailwindcss.com)
-- Components - [Shadcn UI](https://ui.shadcn.com/)
-- Analytics - [Vercel Analytics](https://vercel.com/analytics)
-- Formatting - [Prettier](https://prettier.io)
-
-This template uses the new Next.js App Router. This includes support for enhanced layouts, colocation of components, tests, and styles, component-level data fetching, and more.
+```txt
+src/
+├── app/                      # Next.js App Router entry
+│   ├── (external)/           # Public pages (e.g., marketing, feedback)
+│
+│   ├── (main)/               # Main application layout
+│   │   ├── dashboard/
+│   │   │   ├── layout.tsx    # Shared layout for dashboard routes
+│   │   │   ├── default/      # Default overview dashboard
+│   │   │   │   ├── components/
+│   │   │   │   └── page.tsx
+│   │   │   ├── ecommerce/
+│   │   │   │   ├── components/
+│   │   │   │   └── page.tsx
+│   │   │   ├── email/
+│   │   │   │   ├── components/
+│   │   │   │   └── page.tsx
+│   │   │   ├── users/
+│   │   │   │   ├── components/
+│   │   │   │   └── page.tsx
+│   │   │   ├── profile/
+│   │   │   │   ├── components/
+│   │   │   │   └── page.tsx
+│   ├── auth/                  # Auth section
+│   │   ├── layout.tsx  
+│   │   ├── login/
+│   │   │   ├── components/
+│   │   │   └── page.tsx
+│   │   ├── register/
+│   │   │   ├── components/
+│   │   │   └── page.tsx
+│   │   ├── components/        # Shared auth components (e.g., buttons)
+│
+├── components/
+│   ├── ui/                    # Reusable UI primitives (button, input, etc.)
+│   ├── common/                # Shared layout/global components used across multiple areas
+│
+├── middleware.ts              # Middleware for handling auth/redirects
+├── navigation/                # Navigation config for sidebar
+├── hooks/                     # Custom React hooks
+├── utils/                     # Utility/helper functions
+├── server/                    # Server-only functions and server actions
+├── config/                    # Project-wide configuration (e.g. theme, layout)
+├── constants/                 # Static values like roles, app-level enums, routes, dummy data
+```
 
 ## Getting Started
 
-During the deployment, Vercel will prompt you to create a new Postgres database. This will add the necessary environment variables to your project.
+To set up and run this admin dashboard locally, follow these steps:
 
-Inside the Vercel Postgres dashboard, create a table based on the schema defined in this repository.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/IDEPE-Tech/Cam-Monitor-Dashboard.git
+   ```
+   
+2. **Install dependencies**
+   ```bash
+    npm install
+   ```
+   > While installing, you may be prompted to use the `--force` or `--legacy-peer-deps` flag.  
+   > This is expected and safe — it’s due to a dependency from the Shadcn registry that references a breaking library version.
 
-```
-CREATE TYPE status AS ENUM ('active', 'inactive', 'archived');
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
 
-CREATE TABLE products (
-  id SERIAL PRIMARY KEY,
-  image_url TEXT NOT NULL,
-  name TEXT NOT NULL,
-  status status NOT NULL,
-  price NUMERIC(10, 2) NOT NULL,
-  stock INTEGER NOT NULL,
-  available_at TIMESTAMP NOT NULL
-);
-```
+Once running, the app will be available at [http://localhost:3000](http://localhost:3000)
 
-Then, uncomment `app/api/seed.ts` and hit `http://localhost:3000/api/seed` to seed the database with products.
 
-Next, copy the `.env.example` file to `.env` and update the values. Follow the instructions in the `.env.example` file to set up your GitHub OAuth application.
 
-```bash
-npm i -g vercel
-vercel link
-vercel env pull
-```
-
-Finally, run the following commands to start the development server:
-
-```
-pnpm install
-pnpm dev
-```
-
-You should now be able to access the application at http://localhost:3000.
