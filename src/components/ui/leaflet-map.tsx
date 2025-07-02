@@ -53,7 +53,7 @@ export default function LeafletMap() {
   const { resolvedTheme } = useTheme();
 
   useEffect(() => {
-    import('leaflet/dist/leaflet.css');
+    // import('leaflet/dist/leaflet.css');
     // Adiciona ou remove o filtro dark conforme o tema
     const styleId = 'leaflet-darkmode-filter';
     let styleTag = document.getElementById(styleId) as HTMLStyleElement | null;
